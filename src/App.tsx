@@ -1,7 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -19,35 +16,31 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* import '@ionic/react/css/palettes/dark.always.css'; */
-/* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css';
-
 /* Theme variables */
-import './theme/variables.css';
+import './index.css';
+import { IonReactRouter } from '@ionic/react-router';
+import { Route, Redirect } from 'react-router-dom';
+import { AppRoutes } from './constants/routes';
+import Newsfeed from './pages/newsfeed';
+import CreatePost from './pages/create_post';
+import PostDetail from './pages/post_detail';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
-
-export default App;
+export default function App() {
+    return (
+        <IonApp>
+            <IonReactRouter>
+                <IonRouterOutlet>
+                    <Route path={AppRoutes.Root} exact>
+                        <Redirect to={AppRoutes.Newsfeed} />
+                    </Route>
+                    <Route path={AppRoutes.Newsfeed} exact component={Newsfeed} />
+                    <Route path={AppRoutes.CreatePost} exact component={CreatePost} />
+                    <Route path={AppRoutes.PostDetail} exact component={PostDetail} />
+                    <Route path={AppRoutes.EditPost} exact component={CreatePost} />
+                </IonRouterOutlet>
+            </IonReactRouter>
+        </IonApp>
+    );
+}
