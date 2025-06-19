@@ -1,4 +1,3 @@
-import { useDevice } from "@/hooks/use_device";
 import { cn } from "@/lib/utils";
 import { useEditorReadOnly } from "@udecode/plate-core/react";
 import { MarkToolbarButton } from "./mark-toolbar-button";
@@ -6,6 +5,7 @@ import { ToolbarButton, ToolbarGroup } from "./toolbar";
 import { BoldPlugin, UnderlinePlugin, CodePlugin, ItalicPlugin, StrikethroughPlugin } from "@udecode/plate-basic-marks/react";
 import { Code2Icon, StrikethroughIcon } from "lucide-react";
 import { InsertDropdownMenu } from "./insert-dropdown-menu";
+import { NumberedIndentListToolbarButton } from "./indent-list-toolbar-button";
 
 const ToolbarButtons = () => {
     return (
@@ -24,6 +24,7 @@ const ToolbarButtons = () => {
 
             <ToolbarGroup className="gap-1">
                 <InsertDropdownMenu />
+                <NumberedIndentListToolbarButton />
             </ToolbarGroup>
             <ToolbarGroup className="gap-1">
                 <ToolbarButton>H1</ToolbarButton>
@@ -41,16 +42,14 @@ export default function FixedToolbarButtons({
     className,
     ...props
 }: FixedToolbarButtonsProps) {
-    const { isMobile } = useDevice();
     const readOnly = useEditorReadOnly();
-    console.log(readOnly, isMobile)
     
     return (
         <div
             className={cn("flex flex-wrap w-full gap-1 overflow-y-auto", className)}
             {...props}
         >
-            {!readOnly && (isMobile ? <ToolbarButtons /> : <ToolbarButtons />)}
+            {!readOnly && <ToolbarButtons />}
         </div>
     );
 }
