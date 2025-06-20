@@ -1,6 +1,6 @@
 import { IonContent, IonList, IonPage } from '@ionic/react';
 import React from 'react';
-import PostItem from './components/post_item';
+import PostItem from '@/components/post_item';
 import FloatingButton from './floating_button';
 
 const Newsfeed: React.FC = () => {
