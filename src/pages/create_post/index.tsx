@@ -3,7 +3,7 @@ import React from 'react';
 import { chevronBack } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import Button from '@/components/button';
-import TextEditorWrapper from './components/text-editor-wrapper';
+import TextEditorWrapper from './components/text_editor_wrapper';
 
 const CreatePost: React.FC = () => {
     const history = useHistory();

@@ -1,11 +1,12 @@
 import { cn } from "@/lib/utils";
-import { useEditorReadOnly } from "@udecode/plate-core/react";
+import { useEditorReadOnly } from "@udecode/plate/react";
 import { MarkToolbarButton } from "./mark-toolbar-button";
-import { ToolbarButton, ToolbarGroup } from "./toolbar";
+import { ToolbarGroup } from "./toolbar";
 import { BoldPlugin, UnderlinePlugin, CodePlugin, ItalicPlugin, StrikethroughPlugin } from "@udecode/plate-basic-marks/react";
 import { Code2Icon, StrikethroughIcon } from "lucide-react";
-import { InsertDropdownMenu } from "./insert-dropdown-menu";
-import { NumberedIndentListToolbarButton } from "./indent-list-toolbar-button";
+import { ImagePlugin, VideoPlugin } from "@udecode/plate-media/react";
+import { MediaToolbarButton } from "./media-toolbar-button";
+import { TurnIntoToolbarButton } from "./turn-into-toolbar-button";
 
 const ToolbarButtons = () => {
     return (
@@ -23,14 +24,14 @@ const ToolbarButtons = () => {
             </ToolbarGroup>
 
             <ToolbarGroup className="gap-1">
-                <InsertDropdownMenu />
-                <NumberedIndentListToolbarButton />
+                <TurnIntoToolbarButton />
+            </ToolbarGroup>
+            
+            <ToolbarGroup className="gap-1">
+                <MediaToolbarButton nodeType={ImagePlugin.key} />
             </ToolbarGroup>
             <ToolbarGroup className="gap-1">
-                <ToolbarButton>H1</ToolbarButton>
-                <ToolbarButton>H2</ToolbarButton>
-                <ToolbarButton>H3</ToolbarButton>
-                <ToolbarButton>Quote</ToolbarButton>
+                <MediaToolbarButton nodeType={VideoPlugin.key} />
             </ToolbarGroup>
         </>
     )

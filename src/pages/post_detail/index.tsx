@@ -92,7 +92,6 @@ const PostDetail: React.FC = () => {
             {/* Scrollable Content Area */}
             <div className="flex-1 overflow-y-auto bg-background">
                 <div className="ion-padding">
-                    {/* Post Content - Reusing PostItem component */}
                     <PostItem
                         isDetailView={true}
                         likeCount={likeCount}
