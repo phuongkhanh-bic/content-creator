@@ -32,7 +32,6 @@ const CreatePost: React.FC = () => {
                             fill="solid"
                             color="primary"
                             onClick={handlePublish}
-                            // disabled={isSubmitDisabled}
                         >
                             Post
                         </Button>
