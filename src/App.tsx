@@ -24,23 +24,28 @@ import { AppRoutes } from './constants/routes';
 import Newsfeed from './pages/newsfeed';
 import CreatePost from './pages/create_post';
 import PostDetail from './pages/post_detail';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 setupIonicReact();
 
+const queryClient = new QueryClient()
+
 export default function App() {
     return (
-        <IonApp>
-            <IonReactRouter>
-                <IonRouterOutlet>
+        <QueryClientProvider client={queryClient}>
+            <IonApp>
+                <IonReactRouter>
+                    <IonRouterOutlet>
                     <Route path={AppRoutes.Root} exact>
                         <Redirect to={AppRoutes.Newsfeed} />
                     </Route>
                     <Route path={AppRoutes.Newsfeed} exact component={Newsfeed} />
                     <Route path={AppRoutes.CreatePost} exact component={CreatePost} />
-                    <Route path={AppRoutes.PostDetail} exact component={PostDetail} />
+                    <Route path={`${AppRoutes.PostDetail}/:id`} exact component={PostDetail} />
                     <Route path={AppRoutes.EditPost} exact component={CreatePost} />
-                </IonRouterOutlet>
-            </IonReactRouter>
-        </IonApp>
+                    </IonRouterOutlet>
+                </IonReactRouter>
+            </IonApp>
+        </QueryClientProvider>
     );
 }
