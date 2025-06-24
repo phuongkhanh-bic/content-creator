@@ -3,27 +3,29 @@ import { IonButton, IonIcon } from '@ionic/react';
 import React, { useState } from 'react';
 import { heart, heartOutline, chatbubbleOutline } from 'ionicons/icons';
 
-interface SocialInteractionBarProps {
+interface PostFooterProps {
     initialLikeCount?: number;
     initialCommentCount?: number;
+    isLiked?: boolean;
     onLike?: (isLiked: boolean, newCount: number) => void;
     onComment?: () => void;
 }
 
-const SocialInteractionBar: React.FC<SocialInteractionBarProps> = ({
-    initialLikeCount = 42,
-    initialCommentCount = 8,
+const PostFooter: React.FC<PostFooterProps> = ({
+    initialLikeCount = 0,
+    initialCommentCount = 0,
+    isLiked = false,
     onLike,
     onComment,
 }) => {
-    const [isLiked, setIsLiked] = useState(false);
+    const [hasLiked, setHasLiked] = useState(isLiked);
     const [likeCount, setLikeCount] = useState(initialLikeCount);
 
     const handleLike = () => {
-        const newLikedState = !isLiked;
+        const newLikedState = !hasLiked;
         const newLikeCount = newLikedState ? likeCount + 1 : likeCount - 1;
         
-        setIsLiked(newLikedState);
+        setHasLiked(newLikedState);
         setLikeCount(newLikeCount);
         
         if (onLike) {
@@ -60,10 +62,10 @@ const SocialInteractionBar: React.FC<SocialInteractionBarProps> = ({
                     onClick={handleLike}
                 >
                     <IonIcon 
-                        icon={isLiked ? heart : heartOutline} 
-                        className={cn("mr-2", isLiked ? "text-red-500" : "text-gray-600")}
+                        icon={hasLiked ? heart : heartOutline} 
+                        className={cn("mr-2", hasLiked ? "text-red-500" : "text-gray-600")}
                     />
-                    <span className={cn(isLiked ? "text-red-500" : "text-gray-600")}>
+                    <span className={cn(hasLiked ? "text-red-500" : "text-gray-600")}>
                         Like
                     </span>
                 </IonButton>
@@ -77,35 +79,8 @@ const SocialInteractionBar: React.FC<SocialInteractionBarProps> = ({
                     <span>Comment</span>
                 </IonButton>
             </div>
-
-            {/* Comment Input */}
-            {/* <div className="flex items-center gap-2 pt-2">
-                <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-                    <IonImg
-                        src={userAvatar}
-                        alt="user avatar"
-                        className="w-full h-full object-cover"
-                    />
-                </div>
-                <IonItem className="flex-1 bg-gray-50 rounded-full border-none">
-                    <IonInput
-                        placeholder="Write a comment..."
-                        value={commentText}
-                        onIonInput={(e) => setCommentText(e.detail.value || '')}
-                        className="text-sm"
-                    />
-                </IonItem>
-                <IonButton
-                    fill="clear"
-                    className="text-blue-500 hover:text-blue-600"
-                    onClick={handleComment}
-                    disabled={!commentText.trim()}
-                >
-                    <IonIcon icon={send} />
-                </IonButton>
-            </div> */}
         </div>
     );
 };
 
-export default SocialInteractionBar; 
+export default PostFooter; 

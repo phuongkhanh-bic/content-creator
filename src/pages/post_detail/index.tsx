@@ -1,7 +1,7 @@
 import { IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonIcon } from '@ionic/react';
 import React, { useState } from 'react';
 import { chevronBack } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Button from '@/components/button';
 import PostItem from '@/components/post_item';
 import CommentList from '@/components/comment/comment_list';
@@ -16,11 +16,30 @@ interface Comment {
     likes: number;
 }
 
-const PostDetail: React.FC = () => {
-    const history = useHistory();
-    const [likeCount, setLikeCount] = useState(42);
+interface RouteParams {
+    id: string;
+}
 
-    // Mock data - in real app, this would come from props or API
+const PostDetail = () => {
+    const history = useHistory();
+    const { id } = useParams<RouteParams>();
+    const postId = parseInt(id);
+    
+    console.log('PostDetail id', postId);
+
+    // Mock data - in real app, this would come from API based on the ID
+    const [post, setPost] = useState({
+        id: postId,
+        content: `[{"type":"p","id":"97f0FFUqhE","children":[{"text":"This is a detailed post content for post ${postId}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}]}]`,
+        createdAt: '2021-01-01',
+        author: 'John Doe',
+        avatar: 'https://picsum.photos/200/200',
+        images: ['https://picsum.photos/200/200', 'https://picsum.photos/200/200'],
+        likes: 42,
+        comments: 3,
+        isLiked: false,
+    });
+
     const comments: Comment[] = [
         {
             id: 1,
@@ -52,8 +71,13 @@ const PostDetail: React.FC = () => {
         history.goBack();
     };
 
-    const handleLike = (isLiked: boolean, newCount: number) => {
-        setLikeCount(newCount);
+    const handleLike = (id: number, isLiked: boolean) => {
+        // Update the post's like status and count
+        setPost(prevPost => ({
+            ...prevPost,
+            isLiked: isLiked,
+            likes: isLiked ? prevPost.likes + 1 : prevPost.likes - 1
+        }));
     };
 
     const handleComment = () => {
@@ -93,10 +117,9 @@ const PostDetail: React.FC = () => {
             <div className="flex-1 overflow-y-auto bg-background">
                 <div className="ion-padding">
                     <PostItem
+                        post={post}
                         isDetailView={true}
-                        likeCount={likeCount}
-                        commentCount={comments.length}
-                        onLike={handleLike}
+                        onReaction={handleLike}
                         onComment={handleComment}
                     />
 
