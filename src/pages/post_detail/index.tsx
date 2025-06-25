@@ -5,7 +5,6 @@ import CommentInput from '@/components/comment/comment_input';
 import { usePostDetail } from './hooks/usePostDetail';
 import { mockComments } from './data/mockComments';
 import { PostDetailHeader, LoadingState, ErrorState, CommentsSection } from './components';
-import MainLayout from '../../components/layout/main_layout';
 
 interface RouteParams {
     id: string;
@@ -68,7 +67,7 @@ const PostDetail = () => {
                 </div>
 
                 {/* Fixed Comment Input at Bottom */}
-                <div className="bg-white border-t border-gray-200 px-4 py-3 flex-shrink-0">
+                <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 z-50 md:left-64 lg:right-80">
                     <CommentInput onSendComment={handleSendComment} />
                 </div>
             </>
@@ -79,11 +78,9 @@ const PostDetail = () => {
         <IonPage className="flex flex-col h-full">
             <PostDetailHeader onBack={handleBack} />
             <IonContent className="bg-gray-50">
-                <MainLayout>
-                    <div className="flex flex-col h-full">
-                        {renderContent()}
-                    </div>
-                </MainLayout>
+                <div className="app-main app-content">
+                    {renderContent()}
+                </div>    
             </IonContent>
         </IonPage>
     );
