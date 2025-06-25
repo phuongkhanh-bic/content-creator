@@ -38,7 +38,7 @@ const CreatePost: React.FC = () => {
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent className="bg-gray-50">
                 <TextEditorWrapper />
             </IonContent>
         </IonPage>

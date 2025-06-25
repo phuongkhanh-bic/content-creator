@@ -24,6 +24,8 @@ import { AppRoutes } from './constants/routes';
 import Newsfeed from './pages/newsfeed';
 import CreatePost from './pages/create_post';
 import PostDetail from './pages/post_detail';
+import Explore from './pages/explore';
+import Profile from './pages/profile';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 setupIonicReact();
@@ -40,6 +42,8 @@ export default function App() {
                         <Redirect to={AppRoutes.Newsfeed} />
                     </Route>
                     <Route path={AppRoutes.Newsfeed} exact component={Newsfeed} />
+                    <Route path={AppRoutes.Explore} exact component={Explore} />
+                    <Route path={AppRoutes.Profile} exact component={Profile} />
                     <Route path={AppRoutes.CreatePost} exact component={CreatePost} />
                     <Route path={`${AppRoutes.PostDetail}/:id`} exact component={PostDetail} />
                     <Route path={AppRoutes.EditPost} exact component={CreatePost} />

@@ -1,10 +1,11 @@
-import { IonPage } from '@ionic/react';
+import { IonPage, IonContent } from '@ionic/react';
 import { useHistory, useParams } from 'react-router-dom';
 import PostItem from '@/components/post_item';
 import CommentInput from '@/components/comment/comment_input';
 import { usePostDetail } from './hooks/usePostDetail';
 import { mockComments } from './data/mockComments';
 import { PostDetailHeader, LoadingState, ErrorState, CommentsSection } from './components';
+import MainLayout from '../../components/layout/main_layout';
 
 interface RouteParams {
     id: string;
@@ -49,8 +50,8 @@ const PostDetail = () => {
         return (
             <>
                 {/* Scrollable Content Area */}
-                <div className="flex-1 overflow-y-auto bg-background">
-                    <div className="ion-padding">
+                <div className="flex-1 overflow-y-auto">
+                    <div className="p-4">
                         <PostItem
                             post={post}
                             isDetailView={true}
@@ -75,9 +76,15 @@ const PostDetail = () => {
     }
 
     return (
-        <IonPage className="flex flex-col h-full bg-background">
+        <IonPage className="flex flex-col h-full">
             <PostDetailHeader onBack={handleBack} />
-            {renderContent()}
+            <IonContent className="bg-gray-50">
+                <MainLayout>
+                    <div className="flex flex-col h-full">
+                        {renderContent()}
+                    </div>
+                </MainLayout>
+            </IonContent>
         </IonPage>
     );
 };

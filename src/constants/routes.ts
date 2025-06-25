@@ -4,4 +4,6 @@ export enum AppRoutes {
     CreatePost = '/create-post',
     PostDetail = '/post',
     EditPost = '/edit-post',
+    Explore = '/explore',
+    Profile = '/profile',
 }

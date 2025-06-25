@@ -126,7 +126,77 @@
         @apply border-border outline-ring/50;
     }
 
-    body {
-        @apply bg-background text-foreground;
+    html {
+        @apply bg-gray-50;
     }
+
+    body {
+        @apply bg-gray-50 text-foreground;
+    }
+
+    /* Ensure Ionic app has consistent background */
+    ion-app {
+        @apply bg-gray-50;
+    }
+}
+
+/* Layout styles */
+.app-layout {
+    @apply flex min-h-screen bg-gray-50;
+}
+
+.app-sidebar {
+    @apply hidden md:flex flex-col fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 z-40;
+}
+
+.app-main {
+    @apply flex-1 md:ml-64 lg:mr-80;
+}
+
+.app-content {
+    @apply max-w-2xl mx-auto px-4 py-6;
+}
+
+.app-ads {
+    @apply hidden lg:block fixed right-0 top-0 w-80 h-full overflow-y-auto bg-gray-50 p-4;
+}
+
+.app-bottom-tabs {
+    @apply md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50;
+    padding-bottom: env(safe-area-inset-bottom);
+    min-height: calc(64px + env(safe-area-inset-bottom));
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .app-main {
+        @apply ml-0 mr-0;
+        padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    }
+}
+
+/* Smooth transitions for navigation */
+.nav-item {
+    @apply transition-all duration-200 ease-in-out;
+}
+
+.nav-item:hover {
+    @apply transform scale-105;
+}
+
+/* Custom scrollbar for ads section */
+.app-ads::-webkit-scrollbar {
+    @apply w-2;
+}
+
+.app-ads::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+}
+
+.app-ads::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+}
+
+.app-ads::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
 }
