@@ -6,18 +6,7 @@ import PostHeader from './post_header';
 import PostBody from './post_body';
 import PostFooter from './post_footer';
 import { AppRoutes } from '@/constants/routes';
-
-interface Post {
-    id: number;
-    content: string;
-    createdAt: string;
-    author: string;
-    avatar: string;
-    images: string[];
-    likes: number;
-    comments: number;
-    isLiked: boolean;
-}
+import { Post } from '@/data/posts';
 
 interface PostItemProps {
     post: Post;
@@ -84,7 +73,6 @@ const PostItem: React.FC<PostItemProps> = ({
                 <PostBody
                     content={post.content}
                     images={post.images}
-                    isDetailView={isDetailView}
                 />
             </div>
 

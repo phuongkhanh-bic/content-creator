@@ -19,6 +19,7 @@ import {
   usePlateEditor,
 } from '@udecode/plate/react';
 import { Value } from 'platejs';
+import { ParagraphElement } from '../ui/paragraph-element';
 
 export const useCreateEditor = (value?: Value) => {
   return usePlateEditor({
@@ -46,10 +47,7 @@ export const useCreateEditor = (value?: Value) => {
         className: 'mb-4 mt-6 text-xl font-semibold tracking-tight',
       }),
       [ItalicPlugin.key]: withProps(PlateLeaf, { as: 'em' }),
-      [ParagraphPlugin.key]: withProps(PlateElement, {
-        as: 'p',
-        className: 'mb-4',
-      }),
+      [ParagraphPlugin.key]: ParagraphElement,
       [StrikethroughPlugin.key]: withProps(PlateLeaf, { as: 's' }),
       [UnderlinePlugin.key]: withProps(PlateLeaf, { as: 'u' }),
       ul: withProps(PlateElement, {

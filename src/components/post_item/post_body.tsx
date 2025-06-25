@@ -9,13 +9,11 @@ import { useCreateEditor } from '../editor/use-create-editor';
 interface PostBodyProps {
     content: string;
     images: string[];
-    isDetailView?: boolean;
 }
 
 const PostBody: React.FC<PostBodyProps> = ({
     content,
     images,
-    isDetailView = false
 }) => {
     const editor = useCreateEditor(content ? JSON.parse(content) : []);
 
@@ -31,17 +29,11 @@ const PostBody: React.FC<PostBodyProps> = ({
 
     return (
         <>
-            <p className={cn(
-                "text-gray-700 text-base",
-                !isDetailView && "line-clamp-2",
-                isDetailView && "leading-relaxed"
-            )}>
-                <Plate editor={editor}>
-                    <EditorContainer>
-                        <Editor placeholder='What is on your mind?' readOnly={true}/>
-                    </EditorContainer>
-                </Plate>
-            </p>
+            <Plate editor={editor}>
+                <EditorContainer>
+                    <Editor className='p-1! text-black' placeholder='What is on your mind?' readOnly={true}/>
+                </EditorContainer>
+            </Plate>
 
             {images.length > 0 && (
                 <>
