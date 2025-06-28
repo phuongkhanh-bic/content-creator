@@ -42,16 +42,24 @@ const PostFooter: React.FC<PostFooterProps> = ({
             {/* Like and Comment Count */}
             <div className="flex items-center justify-between py-2 border-b border-gray-100">
                 <div className="flex items-center gap-1">
-                    <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
-                        <IonIcon icon={heart} className="text-white text-xs" />
-                    </div>
-                    <span className="text-gray-600 text-sm">
-                        {likeCount} likes
-                    </span>
+                    {likeCount > 0 && (
+                        <>
+                            <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                                <IonIcon icon={heart} className="text-white text-xs" />
+                            </div>
+                            <span className="text-gray-600 text-sm">
+                                {likeCount} like{likeCount === 1 ? '' : 's'}
+                            </span>
+                        </>
+                    )}
                 </div>
-                <span className="text-gray-600 text-sm">
-                    {initialCommentCount} comments
-                </span>
+                <div>
+                    {initialCommentCount > 0 && (
+                        <span className="text-gray-600 text-sm">
+                            {initialCommentCount} comment{initialCommentCount === 1 ? '' : 's'}
+                        </span>
+                    )}
+                </div>
             </div>
 
             {/* Action Buttons */}

@@ -40,27 +40,27 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
     return (
         <div className={`app-sidebar ${className}`}>
         <div className="p-6">
-            <h1 className="text-2xl font-bold text-black mb-8">ContentCreator</h1>
+            <h1 className="text-2xl font-bold text-black mb-8">Content Creator</h1>
             
             <IonList className="bg-transparent">
             {navigationItems.map((item) => (
                 <IonItem
-                key={item.title}
-                button
-                onClick={() => handleNavigation(item.route)}
-                className={`nav-item mb-2 rounded-lg ${
-                    item.isActive 
-                    ? 'bg-gray-100 text-black font-semibold' 
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-                lines="none"
+                    key={item.title}
+                    button
+                    onClick={() => handleNavigation(item.route)}
+                    className={`nav-item mb-2 rounded-lg ${
+                        item.isActive 
+                        ? 'bg-gray-100 text-black font-semibold' 
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                    lines="none"
                 >
-                <IonIcon 
-                    icon={item.icon} 
-                    slot="start" 
-                    className={`text-2xl ${item.isActive ? 'text-black' : 'text-gray-600'}`}
-                />
-                <IonLabel className="ml-4 text-base">{item.title}</IonLabel>
+                    <IonIcon 
+                        icon={item.icon} 
+                        slot="start" 
+                        className={`text-2xl ${item.isActive ? 'text-black' : 'text-gray-600'}`}
+                    />
+                    <IonLabel className="ml-4 text-base">{item.title}</IonLabel>
                 </IonItem>
             ))}
             </IonList>

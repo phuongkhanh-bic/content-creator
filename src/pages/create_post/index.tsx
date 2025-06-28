@@ -1,20 +1,36 @@
 import { IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
+import React, { useRef } from 'react';
 import { chevronBack } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import Button from '@/components/button';
-import TextEditorWrapper from './components/text_editor_wrapper';
-
+import TextEditorWrapper, { TextEditorWrapperRef } from './components/text_editor_wrapper';
+import usePublishPost from './hooks/usePublishPost';
+import { Post } from '@/types/post';
 const CreatePost: React.FC = () => {
     const history = useHistory();
+    const editorRef = useRef<TextEditorWrapperRef>(null);
+    const { mutateAsync: publishPost } = usePublishPost()
 
     const onClose = () => {
         history.goBack();
     };
 
     const handlePublish = () => {
-        // TODO: Implement publish functionality
-        console.log('Publishing post...');
+        try {
+            const editorContent = editorRef.current?.getCurrentContent();
+            console.log('Publishing post with content:', editorContent);
+
+            const post: Partial<Post> = {
+                content: JSON.stringify(editorContent),
+                is_liked: false,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            }
+
+            publishPost(post);
+        } catch (error) {
+            console.error('Error publishing post:', error);
+        }
     };
 
     return (
@@ -39,7 +55,7 @@ const CreatePost: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="bg-gray-50">
-                <TextEditorWrapper />
+                <TextEditorWrapper ref={editorRef} />
             </IonContent>
         </IonPage>
     );

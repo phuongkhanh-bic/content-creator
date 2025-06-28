@@ -6,7 +6,7 @@ import PostHeader from './post_header';
 import PostBody from './post_body';
 import PostFooter from './post_footer';
 import { AppRoutes } from '@/constants/routes';
-import { Post } from '@/data/posts';
+import { Post } from '@/types/post';
 
 interface PostItemProps {
     post: Post;
@@ -62,24 +62,15 @@ const PostItem: React.FC<PostItemProps> = ({
             onClick={handleCardClick}
         >
             <div className="px-4 py-3">
-                <PostHeader
-                    author={post.author}
-                    avatar={post.avatar}
-                    createdAt={post.createdAt}
-                />
-
+                <PostHeader createdAt={post.created_at}/>
                 <div className="h-3" />
-
-                <PostBody
-                    content={post.content}
-                    images={post.images}
-                />
+                <PostBody content={post.content}/>
             </div>
 
             <PostFooter
                 initialLikeCount={post.likes}
                 initialCommentCount={post.comments}
-                isLiked={post.isLiked}
+                isLiked={post.is_liked}
                 onLike={handleLike}
                 onComment={handleComment}
             />

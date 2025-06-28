@@ -4,16 +4,30 @@ import { FixedToolbar } from "@/components/ui/fixed-toolbar";
 import FixedToolbarButtons from "@/components/ui/fixed-toolbar-buttons";
 import { Plate } from "@udecode/plate/react";
 import { Preferences } from '@capacitor/preferences'
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, forwardRef, useImperativeHandle } from "react";
 import { debounce } from "lodash";
+import { Value } from "@udecode/plate";
 
-const TextEditorWrapper = () => {
+export interface TextEditorWrapperRef {
+    getCurrentContent: () => Value;
+}
+
+export const DRAFT_POST = 'draft_post'
+
+const TextEditorWrapper = forwardRef<TextEditorWrapperRef>((props, ref) => {
     const editor = useCreateEditor();
     const hasInitialized = useRef(false);
+    const contentRef = useRef<Value>([])
+
+    useImperativeHandle(ref, () => ({
+        getCurrentContent: () => contentRef.current
+    }), []);
 
     const handleChange = useCallback(({ value }: { value: unknown }) => {
         console.log(value);
-        Preferences.set({ key: 'draft_post', value: JSON.stringify(value) })
+        Preferences.set({ key: DRAFT_POST, value: JSON.stringify(value) })
+
+        contentRef.current = value as Value;
     }, [])
 
     const debounceHandleChange = useMemo(() => debounce(handleChange, 1000), [handleChange])
@@ -35,7 +49,7 @@ const TextEditorWrapper = () => {
         }
 
         try {
-            const { value } = await Preferences.get({ key: 'draft_post' })
+            const { value } = await Preferences.get({ key: DRAFT_POST })
             console.log('Preferences.get result:', value);
             
             if (value) {
@@ -78,6 +92,8 @@ const TextEditorWrapper = () => {
             </EditorContainer>
         </Plate>
     )
-}
+});
+
+TextEditorWrapper.displayName = 'TextEditorWrapper';
 
 export default TextEditorWrapper;
