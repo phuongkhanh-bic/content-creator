@@ -6,6 +6,7 @@ import Button from '@/components/button';
 import TextEditorWrapper, { TextEditorWrapperRef } from './components/text_editor_wrapper';
 import usePublishPost from './hooks/usePublishPost';
 import { Post } from '@/types/post';
+
 const CreatePost: React.FC = () => {
     const history = useHistory();
     const editorRef = useRef<TextEditorWrapperRef>(null);

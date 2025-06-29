@@ -62,14 +62,12 @@ const PostItem: React.FC<PostItemProps> = ({
             onClick={handleCardClick}
         >
             <div className="px-4 py-3">
-                <PostHeader createdAt={post.created_at}/>
+                <PostHeader createdAt={post.created_at || ''}/>
                 <div className="h-3" />
-                <PostBody content={post.content}/>
+                <PostBody content={post.content || ''}/>
             </div>
 
             <PostFooter
-                initialLikeCount={post.likes}
-                initialCommentCount={post.comments}
                 isLiked={post.is_liked}
                 onLike={handleLike}
                 onComment={handleComment}

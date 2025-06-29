@@ -2,9 +2,10 @@ import { IonPage, IonContent } from '@ionic/react';
 import { useHistory, useParams } from 'react-router-dom';
 import PostItem from '@/components/post_item';
 import CommentInput from '@/components/comment/comment_input';
-import { usePostDetail } from './hooks/usePostDetail';
 import { mockComments } from './data/mockComments';
 import { PostDetailHeader, LoadingState, ErrorState, CommentsSection } from './components';
+import { useQuery } from '@tanstack/react-query';
+import { getPostById } from '@/services/post';
 
 interface RouteParams {
     id: string;
@@ -14,9 +15,12 @@ const PostDetail = () => {
     const history = useHistory();
     const { id } = useParams<RouteParams>();
     const postId = parseInt(id);
-    
-    const { post, loading, error, handleLike } = usePostDetail({ postId });
 
+    const { data: post, status, error } = useQuery({
+        queryKey: ['post', id],
+        queryFn: () => getPostById(postId)
+    })
+    
     const handleBack = () => {
         history.goBack();
     };
@@ -38,32 +42,30 @@ const PostDetail = () => {
     };
 
     const renderContent = () => {
-        if (loading) {
+        if (status === 'pending') {
             return <LoadingState />;
         }
 
         if (error || !post) {
-            return <ErrorState error={error || 'Post not found'} onBack={handleBack} />;
+            return <ErrorState error={error?.message || 'Post not found'} onBack={handleBack} />;
         }
 
         return (
             <>
                 {/* Scrollable Content Area */}
                 <div className="flex-1 overflow-y-auto">
-                    <div className="p-4">
-                        <PostItem
-                            post={post}
-                            isDetailView={true}
-                            onReaction={handleLike}
-                            onComment={handleComment}
-                        />
+                    <PostItem
+                        post={post}
+                        isDetailView={true}
+                        // onReaction={handleLike}
+                        onComment={handleComment}
+                    />
 
-                        <CommentsSection
-                            comments={mockComments}
-                            onLikeComment={handleLikeComment}
-                            onReplyComment={handleReplyComment}
-                        />
-                    </div>
+                    <CommentsSection
+                        comments={mockComments}
+                        onLikeComment={handleLikeComment}
+                        onReplyComment={handleReplyComment}
+                    />
                 </div>
 
                 {/* Fixed Comment Input at Bottom */}
