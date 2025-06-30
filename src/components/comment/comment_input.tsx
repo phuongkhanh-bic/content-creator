@@ -1,5 +1,5 @@
 import { IonAvatar, IonImg, IonInput, IonButton, IonIcon } from '@ionic/react';
-import React, { useState } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { send } from 'ionicons/icons';
 
 interface CommentInputProps {
@@ -9,13 +9,23 @@ interface CommentInputProps {
     disabled?: boolean;
 }
 
-const CommentInput: React.FC<CommentInputProps> = ({
+export interface CommentInputRef {
+    focus: () => void;
+}
+
+const CommentInput = forwardRef<CommentInputRef, CommentInputProps>(({
     userAvatar = "https://picsum.photos/200/200",
-    placeholder = "Write a comment...",
     onSendComment,
     disabled = false
-}) => {
+}, ref) => {
     const [commentText, setCommentText] = useState('');
+    const inputRef = useRef<HTMLIonInputElement>(null);
+
+    useImperativeHandle(ref, () => ({
+        focus: () => {
+            inputRef.current?.setFocus();
+        }
+    }));
 
     const handleSendComment = () => {
         if (commentText.trim() && !disabled) {
@@ -41,7 +51,8 @@ const CommentInput: React.FC<CommentInputProps> = ({
             </IonAvatar>
             <div className="flex-1 bg-gray-50 rounded-full px-3 py-2">
                 <IonInput
-                    placeholder={placeholder}
+                    ref={inputRef}
+                    placeholder={"Write a comment..."}
                     value={commentText}
                     onIonInput={(e) => setCommentText(e.detail.value || '')}
                     onKeyPress={handleKeyPress}
@@ -64,6 +75,8 @@ const CommentInput: React.FC<CommentInputProps> = ({
             </IonButton>
         </div>
     );
-};
+});
+
+CommentInput.displayName = 'CommentInput';
 
 export default CommentInput; 

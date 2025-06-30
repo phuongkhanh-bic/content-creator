@@ -1,9 +1,7 @@
 import PostItem from '@/components/post_item';
 import { IonInfiniteScroll, IonInfiniteScrollContent, IonList, IonSpinner } from '@ionic/react';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Post } from '@/data/posts';
-import { PostService } from '@/services/postService';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getPosts } from '@/services/post';
 import { POST_PAGE_SIZE } from '@/constants/database';

@@ -1,16 +1,12 @@
 import CommentList from '@/components/comment/comment_list';
-import { Comment } from '../data/mockComments';
+import { Comment } from '@/types/comment';
 
 interface CommentsSectionProps {
     comments: Comment[];
-    onLikeComment: (commentId: number) => void;
-    onReplyComment: (commentId: number) => void;
 }
 
 const CommentsSection: React.FC<CommentsSectionProps> = ({
     comments,
-    onLikeComment,
-    onReplyComment,
 }) => {
     return (
         <>
@@ -21,11 +17,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
                         Comments ({comments.length})
                     </span>
                 </div>
-                <CommentList
-                    comments={comments}
-                    onLikeComment={onLikeComment}
-                    onReplyComment={onReplyComment}
-                />
+                <CommentList comments={comments}/>
             </div>
             
             {/* Bottom spacing to ensure last comment is visible */}
