@@ -27,6 +27,7 @@ import PostDetail from './pages/post_detail';
 import Explore from './pages/explore';
 import Profile from './pages/profile';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'sonner';
 
 setupIonicReact();
 
@@ -49,6 +50,7 @@ export default function App() {
                     <Route path={AppRoutes.EditPost} exact component={CreatePost} />
                     </IonRouterOutlet>
                 </IonReactRouter>
+                <Toaster richColors />
             </IonApp>
         </QueryClientProvider>
     );

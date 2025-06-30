@@ -13,13 +13,17 @@ interface PostItemProps {
     isDetailView?: boolean;
     onReaction?: (id: number, isLiked: boolean) => void;
     onComment?: (id: number) => void;
+    onEdit?: (id: number) => void;
+    onDelete?: (id: number) => void;
 }
 
 const PostItem: React.FC<PostItemProps> = ({
     post,
     isDetailView = false,
     onReaction,
-    onComment
+    onComment,
+    onEdit,
+    onDelete
 }) => {
     const history = useHistory();
 
@@ -40,10 +44,18 @@ const PostItem: React.FC<PostItemProps> = ({
         }
     };
 
+    const handleEdit = () => {
+        onEdit?.(post.id);
+    };
+
+    const handleDelete = () => {
+        onDelete?.(post.id);
+    };
+
     const handleCardClick = (e: React.MouseEvent) => {
         // Don't navigate if clicking on buttons or interactive elements
         const target = e.target as HTMLElement;
-        if (target.closest('ion-button') || target.closest('button')) {
+        if (target.closest('ion-button') || target.closest('button') || target.closest('ion-popover') || target.closest('ion-item')) {
             return;
         }
         
@@ -62,7 +74,11 @@ const PostItem: React.FC<PostItemProps> = ({
             onClick={handleCardClick}
         >
             <div className="px-4 py-3">
-                <PostHeader createdAt={post.created_at || ''}/>
+                <PostHeader 
+                    createdAt={post.created_at || ''}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                />
                 <div className="h-3" />
                 <PostBody content={post.content || ''}/>
             </div>

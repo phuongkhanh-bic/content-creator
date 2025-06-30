@@ -1,4 +1,4 @@
-import { IonPage, IonContent } from '@ionic/react';
+import { IonPage, IonContent, IonAlert } from '@ionic/react';
 import { useHistory, useParams } from 'react-router-dom';
 import PostItem from '@/components/post_item';
 import CommentInput, { CommentInputRef } from '@/components/comment/comment_input';
@@ -7,8 +7,10 @@ import { useQuery } from '@tanstack/react-query';
 import { getPostById } from '@/services/post';
 import useCreateComment from './hooks/useCreateComment';
 import { Comment } from '@/types/comment';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { getCommentsByPostId } from '@/services/comment';
+import { AppRoutes } from '@/constants/routes';
+import { useDeletePost } from '@/hooks/use_delete_post';
 
 interface RouteParams {
     id: string;
@@ -19,6 +21,7 @@ const PostDetail = () => {
     const { id } = useParams<RouteParams>();
     const postId = parseInt(id);
     const commentInputRef = useRef<CommentInputRef>(null);
+    const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
 
     const { data: post, status, error } = useQuery({
         queryKey: ['post', id],
@@ -30,7 +33,12 @@ const PostDetail = () => {
         queryFn: () => getCommentsByPostId(postId),
         enabled: !!postId, // Only run query if postId exists
     });
+
     const { mutateAsync: createComment, isPending: isCommentPending } = useCreateComment(postId);
+    
+    const deletePostMutation = useDeletePost({
+        redirectTo: AppRoutes.Newsfeed
+    });
     
     const handleBack = () => {
         history.goBack();
@@ -38,6 +46,23 @@ const PostDetail = () => {
 
     const handleComment = () => {
         commentInputRef.current?.focus();
+    };
+
+    const handleEdit = () => {
+        history.push(`${AppRoutes.EditPost}?id=${postId}`);
+    };
+
+    const handleDelete = () => {
+        setIsDeleteAlertOpen(true);
+    };
+
+    const confirmDelete = () => {
+        deletePostMutation.mutate(postId);
+        setIsDeleteAlertOpen(false);
+    };
+
+    const cancelDelete = () => {
+        setIsDeleteAlertOpen(false);
     };
 
     const handleSendComment = (commentText: string) => {
@@ -68,6 +93,8 @@ const PostDetail = () => {
                         isDetailView={true}
                         // onReaction={handleLike}
                         onComment={handleComment}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
                     />
 
                     <CommentsSection comments={comments} />
@@ -93,6 +120,25 @@ const PostDetail = () => {
                     {renderContent()}
                 </div>    
             </IonContent>
+
+            <IonAlert
+                isOpen={isDeleteAlertOpen}
+                onDidDismiss={cancelDelete}
+                header="Delete Post"
+                message="Are you sure you want to delete this post? This action cannot be undone."
+                buttons={[
+                    {
+                        text: 'Cancel',
+                        role: 'cancel',
+                        handler: cancelDelete
+                    },
+                    {
+                        text: 'Delete',
+                        role: 'destructive',
+                        handler: confirmDelete
+                    }
+                ]}
+            />
         </IonPage>
     );
 };

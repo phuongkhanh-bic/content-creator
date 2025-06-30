@@ -4,7 +4,7 @@ import { chevronBack } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import Button from '@/components/button';
 import TextEditorWrapper, { TextEditorWrapperRef } from './components/text_editor_wrapper';
-import usePublishPost from './hooks/usePublishPost';
+import usePublishPost from './hooks/use_publish_post';
 import { Post } from '@/types/post';
 
 const CreatePost: React.FC = () => {
@@ -19,7 +19,6 @@ const CreatePost: React.FC = () => {
     const handlePublish = () => {
         try {
             const editorContent = editorRef.current?.getCurrentContent();
-            console.log('Publishing post with content:', editorContent);
 
             const post: Partial<Post> = {
                 content: JSON.stringify(editorContent),
