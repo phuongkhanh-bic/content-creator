@@ -6,7 +6,7 @@ import PostItem from '@/components/post_item';
 import CommentInput, { CommentInputRef } from '@/components/comment/comment_input';
 import { PostDetailHeader, LoadingState, ErrorState, CommentsSection } from './components';
 import { getPostById } from '@/services/post';
-import useCreateComment from './hooks/useCreateComment';
+import useCreateComment from './hooks/use_create_comment';
 import { Comment } from '@/types/comment';
 import { getCommentsByPostId } from '@/services/comment';
 import { AppRoutes } from '@/constants/routes';
