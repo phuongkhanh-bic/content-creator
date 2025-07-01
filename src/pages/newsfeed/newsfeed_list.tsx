@@ -64,8 +64,11 @@ const NewsfeedList: React.FC = () => {
         setPostToDelete(null);
     }
 
-    const onEndReached = () => {
-        console.log('onEndReached');
+    const onEndReached = async (ev: CustomEvent<void>) => {
+        if (hasNextPage && !isFetching) {
+            await fetchNextPage();
+        }
+        (ev.target as HTMLIonInfiniteScrollElement).complete();
     }
 
     if (isPending) {
@@ -93,7 +96,10 @@ const NewsfeedList: React.FC = () => {
                     />
                 ))}
             </IonList>
-            <IonInfiniteScroll onIonInfinite={onEndReached}>
+            <IonInfiniteScroll 
+                onIonInfinite={onEndReached}
+                disabled={!hasNextPage}
+            >
                 <IonInfiniteScrollContent></IonInfiniteScrollContent>
             </IonInfiniteScroll>
 
