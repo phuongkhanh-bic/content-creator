@@ -1,16 +1,17 @@
 import { IonPage, IonContent, IonAlert } from '@ionic/react';
+import React, { useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import PostItem from '@/components/post_item';
 import CommentInput, { CommentInputRef } from '@/components/comment/comment_input';
 import { PostDetailHeader, LoadingState, ErrorState, CommentsSection } from './components';
-import { useQuery } from '@tanstack/react-query';
 import { getPostById } from '@/services/post';
 import useCreateComment from './hooks/useCreateComment';
 import { Comment } from '@/types/comment';
-import { useRef, useState } from 'react';
 import { getCommentsByPostId } from '@/services/comment';
 import { AppRoutes } from '@/constants/routes';
 import { useDeletePost } from '@/hooks/use_delete_post';
+import useLikePost from '@/hooks/use_like_post';
 
 interface RouteParams {
     id: string;
@@ -23,10 +24,11 @@ const PostDetail = () => {
     const commentInputRef = useRef<CommentInputRef>(null);
     const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
 
-    const { data: post, status, error } = useQuery({
-        queryKey: ['post', id],
-        queryFn: () => getPostById(postId)
-    })
+    const { data: post, isLoading, error } = useQuery({
+        queryKey: ['post', postId],
+        queryFn: () => getPostById(postId),
+        enabled: !!postId
+    });
 
     const { data: comments = [] } = useQuery({
         queryKey: ['comments', postId],
@@ -35,6 +37,7 @@ const PostDetail = () => {
     });
 
     const { mutateAsync: createComment, isPending: isCommentPending } = useCreateComment(postId);
+    const { likePost } = useLikePost();
     
     const deletePostMutation = useDeletePost({
         redirectTo: AppRoutes.Newsfeed
@@ -42,6 +45,10 @@ const PostDetail = () => {
     
     const handleBack = () => {
         history.goBack();
+    };
+
+    const handleReaction = async (id: number, isLiked: boolean) => {
+        await likePost(id, isLiked);
     };
 
     const handleComment = () => {
@@ -76,7 +83,7 @@ const PostDetail = () => {
     };
 
     const renderContent = () => {
-        if (status === 'pending') {
+        if (isLoading) {
             return <LoadingState />;
         }
 
@@ -91,7 +98,7 @@ const PostDetail = () => {
                     <PostItem
                         post={post}
                         isDetailView={true}
-                        // onReaction={handleLike}
+                        onReaction={handleReaction}
                         onComment={handleComment}
                         onEdit={handleEdit}
                         onDelete={handleDelete}
@@ -130,12 +137,12 @@ const PostDetail = () => {
                     {
                         text: 'Cancel',
                         role: 'cancel',
-                        handler: cancelDelete
+                        handler: cancelDelete,
                     },
                     {
                         text: 'Delete',
                         role: 'destructive',
-                        handler: confirmDelete
+                        handler: confirmDelete,
                     }
                 ]}
             />

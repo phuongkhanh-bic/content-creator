@@ -7,6 +7,7 @@ import { getPosts } from '@/services/post';
 import { POST_PAGE_SIZE } from '@/constants/database';
 import { AppRoutes } from '@/constants/routes';
 import { useDeletePost } from '@/hooks/use_delete_post';
+import useLikePost from '@/hooks/use_like_post';
 
 const NewsfeedList: React.FC = () => {
     const history = useHistory();
@@ -26,13 +27,14 @@ const NewsfeedList: React.FC = () => {
     })
 
     const { mutate: deletePost } = useDeletePost();
+    const { likePost } = useLikePost();
 
     const posts = data?.pages.flat()
 
     console.log({ posts: data?.pages.flat(), error, fetchNextPage, hasNextPage, isFetching, status })
 
     const onReaction = async (id: number, isLiked: boolean) => {
-        console.log(`Post ${id} reaction: ${isLiked ? 'liked' : 'unliked'}`);
+        await likePost(id, isLiked);
     }
     
     const onComment = (id: number) => {
@@ -104,13 +106,13 @@ const NewsfeedList: React.FC = () => {
                     {
                         text: 'Cancel',
                         role: 'cancel',
-                        handler: cancelDelete
+                        handler: cancelDelete,
                     },
                     {
                         text: 'Delete',
                         role: 'destructive',
-                        handler: confirmDelete
-                    }
+                        handler: confirmDelete,
+                    },
                 ]}
             />
         </>

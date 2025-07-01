@@ -31,8 +31,7 @@ const PostItem: React.FC<PostItemProps> = ({
         history.push(`${AppRoutes.PostDetail}/${post.id}`);
     }
 
-    const handleLike = (isLiked: boolean, newCount: number) => {
-        console.log('Post liked:', isLiked, 'New count:', newCount);
+    const handleLike = (isLiked: boolean) => {
         onReaction?.(post.id, isLiked);
     };
 
