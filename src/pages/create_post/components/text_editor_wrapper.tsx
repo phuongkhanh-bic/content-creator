@@ -12,9 +12,14 @@ export interface TextEditorWrapperRef {
     getCurrentContent: () => Value;
 }
 
+interface TextEditorWrapperProps {
+    initialContent?: string;
+    isEditMode?: boolean;
+}
+
 export const DRAFT_POST = 'draft_post'
 
-const TextEditorWrapper = forwardRef<TextEditorWrapperRef>((props, ref) => {
+const TextEditorWrapper = forwardRef<TextEditorWrapperRef, TextEditorWrapperProps>(({ initialContent, isEditMode = false }, ref) => {
     const editor = useCreateEditor();
     const hasInitialized = useRef(false);
     const contentRef = useRef<Value>([])
@@ -24,19 +29,18 @@ const TextEditorWrapper = forwardRef<TextEditorWrapperRef>((props, ref) => {
     }), []);
 
     const handleChange = useCallback(({ value }: { value: unknown }) => {
-        console.log(value);
-        Preferences.set({ key: DRAFT_POST, value: JSON.stringify(value) })
+        if (!isEditMode) {
+            Preferences.set({ key: DRAFT_POST, value: JSON.stringify(value) })
+        }
 
         contentRef.current = value as Value;
-    }, [])
+    }, [isEditMode])
 
     const debounceHandleChange = useMemo(() => debounce(handleChange, 1000), [handleChange])
 
     const clearEditor = useCallback(() => {
-        console.log('Clearing editor...');
         try {
             editor.tf.setValue([]);
-            console.log('Editor cleared successfully');
         } catch (error) {
             console.error('Error clearing editor:', error);
         }
@@ -44,21 +48,17 @@ const TextEditorWrapper = forwardRef<TextEditorWrapperRef>((props, ref) => {
 
     const loadLocalandInit = useCallback(async () => {
         if (hasInitialized.current) {
-            console.log('Already initialized, skipping...');
             return;
         }
 
         try {
             const { value } = await Preferences.get({ key: DRAFT_POST })
-            console.log('Preferences.get result:', value);
             
             if (value) {
-                console.log('Found saved content, parsing...');
                 try {
                     const content = JSON.parse(value);
-                    console.log('Parsed content:', content);
                     editor.tf.setValue(content);
-                    console.log('Content set successfully');
+                    contentRef.current = content;
                 } catch (parseError) {
                     console.error('Error parsing saved content:', parseError);
                     clearEditor();
@@ -76,10 +76,33 @@ const TextEditorWrapper = forwardRef<TextEditorWrapperRef>((props, ref) => {
             hasInitialized.current = true;
         }
     }, [editor, clearEditor]);
+
+    const loadInitialContent = useCallback(() => {
+        if (hasInitialized.current) {
+            return;
+        }
+
+        try {
+            if (isEditMode && initialContent) {
+                const content = JSON.parse(initialContent);
+                editor.tf.setValue(content);
+                contentRef.current = content;
+            } else {
+                loadLocalandInit();
+                return;
+            }
+            
+            hasInitialized.current = true;
+        } catch (error) {
+            console.error('Error loading initial content:', error);
+            clearEditor();
+            hasInitialized.current = true;
+        }
+    }, [editor, clearEditor, loadLocalandInit, initialContent, isEditMode]);
         
     useEffect(() => {
-        loadLocalandInit();
-    }, [loadLocalandInit]);
+        loadInitialContent();
+    }, [loadInitialContent]);
     
 
     return (
