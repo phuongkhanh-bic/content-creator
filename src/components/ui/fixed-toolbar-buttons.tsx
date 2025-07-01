@@ -27,12 +27,12 @@ const ToolbarButtons = () => {
                 <TurnIntoToolbarButton />
             </ToolbarGroup>
             
-            <ToolbarGroup className="gap-1">
+            {/* <ToolbarGroup className="gap-1">
                 <MediaToolbarButton nodeType={ImagePlugin.key} />
             </ToolbarGroup>
             <ToolbarGroup className="gap-1">
                 <MediaToolbarButton nodeType={VideoPlugin.key} />
-            </ToolbarGroup>
+            </ToolbarGroup> */}
         </>
     )
 }

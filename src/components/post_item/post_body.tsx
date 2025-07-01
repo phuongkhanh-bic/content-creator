@@ -14,8 +14,16 @@ const PostBody: React.FC<PostBodyProps> = ({content}) => {
     return (
         <>
             <Plate editor={editor}>
-                <EditorContainer>
-                    <Editor className='p-1! text-black' placeholder='What is on your mind?' readOnly={true}/>
+                <EditorContainer className="post-body-content">
+                    <Editor 
+                        variant="select"
+                        className='text-black !py-0'
+                        style={{
+                            '--list-style': 'initial'
+                        } as React.CSSProperties}
+                        placeholder='What is on your mind?' 
+                        readOnly={true}
+                    />
                 </EditorContainer>
             </Plate>
         </>

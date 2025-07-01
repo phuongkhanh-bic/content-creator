@@ -200,3 +200,20 @@
 .app-ads::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-400;
 }
+
+/* Post content list styling */
+.post-body-content ul {
+    list-style-type: disc !important;
+    padding-left: 1.5rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.post-body-content ol {
+    list-style-type: decimal !important;
+    padding-left: 1.5rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.post-body-content li {
+    margin-bottom: 0.25rem !important;
+}
