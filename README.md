@@ -14,10 +14,7 @@ Here are the features:
 - Local storage to save Post drafts
 - Additional Explore and Profile pages
 
-Please watch the following demo:
-<iframe src="https://drive.google.com/file/d/16CIZHhE1A8FjZViUdj64OcgbzuHqI-Qb/preview" width="640" height="480" allow="autoplay"></iframe>
-
-<p>If the video does not show, <a href="https://drive.google.com/file/d/16CIZHhE1A8FjZViUdj64OcgbzuHqI-Qb/view?usp=sharing">click here to watch the demo video on Google Drive</a>.</p>
+<p><a href="https://drive.google.com/file/d/16CIZHhE1A8FjZViUdj64OcgbzuHqI-Qb/view?usp=sharing">Please click the link watch the demo</a>.</p>
 
 <h2>🛠️ Installation Steps:</h2>
 
