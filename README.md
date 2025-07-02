@@ -1,20 +1,19 @@
 <h1 align="center" id="title">Content Creator</h1>
 
-<p id="description">This is demo of building web app with Ionic</p>
+<p id="description">This is demo of Content Creator app with Ionic</p>
+
+<h3><a href="https://drive.google.com/file/d/16CIZHhE1A8FjZViUdj64OcgbzuHqI-Qb/view?usp=sharing">Please click the link watch the demo</a>.</h3>
 
 <h2>🧐 Features</h2>
 
 Here are the features:
 
 - Home page: Newsfeed
-- Post detail
+- Post detail with Edit and Delete post option
 - Create new post
 - Comment
-- Responsive
 - Local storage to save Post drafts
 - Additional Explore and Profile pages
-
-<p><a href="https://drive.google.com/file/d/16CIZHhE1A8FjZViUdj64OcgbzuHqI-Qb/view?usp=sharing">Please click the link watch the demo</a>.</p>
 
 <h2>🛠️ Installation Steps:</h2>
 
@@ -31,13 +30,15 @@ npm install -g @ionic/cli
 npm i
 ```
 
-<p>4. Run web:</p>
+<p>4. Contact Khanh for .env file</p>
+
+<p>5. Run web:</p>
 
 ```
 ionic serve
 ```
 
-<p>5. Run iOS:</p>
+<p>6. Run iOS:</p>
 
 ```
 ionic cap build ios
@@ -47,7 +48,7 @@ ionic cap build ios
 ionic cap run ios -l --external
 ```
 
-<p>6. Run Android:</p>
+<p>7. Run Android:</p>
 
 ```
 ionic cap build android
